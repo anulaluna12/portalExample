@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PortalExample.API.Data;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace PortalExample.API
 {
@@ -31,7 +34,8 @@ namespace PortalExample.API
         public void ConfigureServices(IServiceCollection services)// automatycznie wykonywana przez system
         {
             // services.AddMvc(option => option.EnableEndpointRouting = false);
-            // services.AddControllers();
+            // services.AddControllers(); 
+            services.AddDbContext<DataContext>(x =>x.UseSqlite("Connectionstring")) ;
              services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
