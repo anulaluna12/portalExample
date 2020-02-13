@@ -37,6 +37,7 @@ namespace PortalExample.API
             // services.AddControllers(); 
             services.AddDbContext<DataContext>(x =>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
              services.AddMvc(option => option.EnableEndpointRouting = false);
+             services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +48,7 @@ namespace PortalExample.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(p=>p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             // app.UseHttpsRedirection();
             app.UseMvc();//potrzebuje routing oparty na atrybtach
             // app.UseRouting();
