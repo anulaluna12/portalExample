@@ -38,6 +38,8 @@ namespace PortalExample.API
             services.AddDbContext<DataContext>(x =>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
              services.AddMvc(option => option.EnableEndpointRouting = false);
              services.AddCors();
+             services.AddScoped<IAuthRepository,AuthRepository>();//jedna instancja dla tego samego żądania tego samego www
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
