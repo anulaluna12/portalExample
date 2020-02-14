@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PortalExample.API.Data;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PortalExample.API
 {
@@ -39,6 +41,15 @@ namespace PortalExample.API
              services.AddMvc(option => option.EnableEndpointRouting = false);
              services.AddCors();
              services.AddScoped<IAuthRepository,AuthRepository>();//jedna instancja dla tego samego żądania tego samego www
+             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options => {
+                 options.TokenValidationParameters= new TokenValidationParameters{
+                     ValidateIssuerSigningKey=true,
+                     IssuerSigningKey= new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                     ValidateIssuer=false,
+                     ValidateAudience=false
+                 };
+             });
 
         }
 
@@ -52,6 +63,7 @@ namespace PortalExample.API
             }
             app.UseCors(p=>p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             // app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();//potrzebuje routing oparty na atrybtach
             // app.UseRouting();
 
