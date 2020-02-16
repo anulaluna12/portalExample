@@ -41,6 +41,7 @@ namespace PortalExample.API.Controllers
         //     return Ok(values);
         // }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetValues()// Task reprezentuję asynchronicznośc
         {
             var values = await _context.Values.ToListAsync();
@@ -65,7 +66,7 @@ namespace PortalExample.API.Controllers
         {
             var data = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
             data.Name = value.Name;
-            
+
             await _context.SaveChangesAsync();
             return Ok(value);
         }
