@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PortalExample.API.Models;
 
 namespace PortalExample.API
 {
@@ -37,31 +38,38 @@ namespace PortalExample.API
         {
             // services.AddMvc(option => option.EnableEndpointRouting = false);
             // services.AddControllers(); 
-            services.AddDbContext<DataContext>(x =>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-             services.AddMvc(option => option.EnableEndpointRouting = false);
-             services.AddCors();
-             services.AddScoped<IAuthRepository,AuthRepository>();//jedna instancja dla tego samego żądania tego samego www
-             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-             .AddJwtBearer(options => {
-                 options.TokenValidationParameters= new TokenValidationParameters{
-                     ValidateIssuerSigningKey=true,
-                     IssuerSigningKey= new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                     ValidateIssuer=false,
-                     ValidateAudience=false
-                 };
-             });
+            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            // .AddJsonOptions(option =>{option.JsonSerializerOptions});
+            services.AddCors();
+            services.AddTransient<Seed>();
+            services.AddScoped<IGenericRepository, GenericRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();//jedna instancja dla tego samego żądania tego samego www
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //potok żadania np porgramowanie posrednie np na komponnety przychodzące przez http
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seed)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(p=>p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            seed.SeedUseds();
+            app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             // app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();//potrzebuje routing oparty na atrybtach
