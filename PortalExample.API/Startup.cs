@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using PortalExample.API.Models;
+using AutoMapper;
 
 namespace PortalExample.API
 {
@@ -41,6 +42,7 @@ namespace PortalExample.API
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc(option => option.EnableEndpointRouting = false);
             // .AddJsonOptions(option =>{option.JsonSerializerOptions});
+            services.AddAutoMapper();
             services.AddCors();
             services.AddTransient<Seed>();
             services.AddScoped<IGenericRepository, GenericRepository>();
