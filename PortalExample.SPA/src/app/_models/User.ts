@@ -3,8 +3,7 @@ import { Photo } from './Photo';
 export interface User {
     id: number;
     username: string;
-    passwordHasd: string;
-    passwordSalt: string;
+age: number;
     gender: string;
     dateOfBirth: Date;
     zodiacSign: string;
