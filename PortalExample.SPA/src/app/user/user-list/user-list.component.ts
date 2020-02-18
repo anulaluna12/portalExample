@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/_services/user.service';
+import { User } from 'src/app/_models/User';
 
 @Component({
   selector: 'app-user-list',
@@ -15,7 +16,9 @@ export class UserListComponent implements OnInit {
   }
 loadUsers(){
   this.userService.getUsers().subscribe(
-()
+()=>{
+  
+}
 
   )
 }
