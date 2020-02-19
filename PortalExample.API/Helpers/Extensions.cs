@@ -16,8 +16,8 @@ namespace PortalExample.API.Helpers
         }
         public static void AddApplicationError(this HttpResponse respone, string message)
         {
-            respone.Headers.Add("Application error", message);
-            respone.Headers.Add("Access-Control-Expose-Headers", "Application error");
+            respone.Headers.Add("Application-error", message);
+            respone.Headers.Add("Access-Control-Expose-Headers", "Application-error");
             respone.Headers.Add("Access-Control-Allow-Origin", "*");
         }
     }

@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -18,9 +18,10 @@ import { UserListComponent } from './user/user-list/user-list.component';
 
 import { appRoutes } from './routes.routing';
 import { AuthGuard } from './_guards/auth.guard';
+import {  ErrorInterceptorProvider } from './_services/error.inerceptor';
 
 
-export function tokenGetter3(){
+export function tokenGetter3() {
    return localStorage.getItem('token');
 }
 
@@ -33,6 +34,7 @@ export function tokenGetter3(){
       UserListComponent
    ],
    imports: [
+      BrowserAnimationsModule,
       BrowserModule,
       HttpClientModule,
       FormsModule,
@@ -51,7 +53,8 @@ export function tokenGetter3(){
       AuthService,
       AlerifyService,
       UserService,
-      AuthGuard
+      AuthGuard,
+      ErrorInterceptorProvider
       
    ],
    bootstrap: [
