@@ -19,6 +19,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { appRoutes } from './routes.routing';
 import { AuthGuard } from './_guards/auth.guard';
 import {  ErrorInterceptorProvider } from './_services/error.inerceptor';
+import { UserCardComponent } from './user/user-card/user-card.component';
 
 
 export function tokenGetter3() {
@@ -31,7 +32,8 @@ export function tokenGetter3() {
       NavComponent,
       HomeComponent,
       RegisterComponent,
-      UserListComponent
+      UserListComponent,
+      UserCardComponent
    ],
    imports: [
       BrowserAnimationsModule,

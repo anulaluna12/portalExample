@@ -34,4 +34,5 @@ age: number;
     itFeelBestIn: string;
     friendeWouldDescribeMe: string;
     photo: Photo[];
+    photoUrl: string;
 }
