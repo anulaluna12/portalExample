@@ -26,12 +26,22 @@ export class ErrorInterceptor implements HttpInterceptor {
             console.error(applicationError);
             return throwError(applicationError);
           }
+          const serverError = error.error.errors;
+          let errors = '';
+          if (serverError && typeof serverError === 'object') {
+              for (const key in serverError) {
+                  if (serverError[key]) {
+                      errors += serverError[key] + '\n';
+                  }
+              }
+          }
+          return throwError(errors || serverError || 'Server Error');
         }
       })
     );
   }
 }
-export const ErrorInterceptorProvider =[ {
+export const ErrorInterceptorProvider = [ {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,
     multi: true
