@@ -17,6 +17,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using PortalExample.API.Models;
 using AutoMapper;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using PortalExample.API.Helpers;
 
 namespace PortalExample.API
 {
@@ -69,6 +73,25 @@ namespace PortalExample.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                //globalna osługa błedów na produkcji
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                        var ERROR = context.Features.Get<IExceptionHandlerFeature>();
+                        if (ERROR != null)
+                        {
+                            context.Response.AddApplicationError(ERROR.Error.Message);
+                            await context.Response.WriteAsync(ERROR.Error.Message);
+                        }
+                    });
+
+                });
             }
             seed.SeedUseds();
             app.UseCors(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

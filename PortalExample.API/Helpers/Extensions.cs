@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace PortalExample.API.Helpers
 {
@@ -12,6 +13,12 @@ namespace PortalExample.API.Helpers
 
             return age;
 
+        }
+        public static void AddApplicationError(this HttpResponse respone, string message)
+        {
+            respone.Headers.Add("Application error", message);
+            respone.Headers.Add("Access-Control-Expose-Headers", "Application error");
+            respone.Headers.Add("Access-Control-Allow-Origin", "*");
         }
     }
 }
