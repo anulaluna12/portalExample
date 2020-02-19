@@ -20,6 +20,7 @@ import { appRoutes } from './routes.routing';
 import { AuthGuard } from './_guards/auth.guard';
 import {  ErrorInterceptorProvider } from './_services/error.inerceptor';
 import { UserCardComponent } from './user/user-card/user-card.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 
 export function tokenGetter3() {
@@ -33,7 +34,8 @@ export function tokenGetter3() {
       HomeComponent,
       RegisterComponent,
       UserListComponent,
-      UserCardComponent
+      UserCardComponent,
+      UserDetailComponent
    ],
    imports: [
       BrowserAnimationsModule,

@@ -4,6 +4,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { LikesComponent } from './likes/likes.component';
 import { MessegesComponent } from './messeges/messeges.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 export const appRoutes: Routes = [
   {
@@ -18,6 +19,10 @@ export const appRoutes: Routes = [
       {
         path: 'users',
         component: UserListComponent
+      },
+      {
+        path: 'users/:id',
+        component: UserDetailComponent
       },
       {
         path: 'likes',
