@@ -19,7 +19,7 @@
         Witaj {{authService.decodedToken?.unique_name | titlecase}}
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" type="button"><i class="fa fa-user"></i>Edytuj profil</a>
+        <a class="dropdown-item" [routerLink]="['/users/edit']"   type="button"><i class="fa fa-user"></i>Edytuj profil</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" type="button"><i class="fa fa-sign-out"></i>Wyloguj </a>
 

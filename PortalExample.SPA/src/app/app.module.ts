@@ -6,6 +6,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { NgxGalleryModule } from 'ngx-gallery';
+
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -23,6 +25,8 @@ import { UserCardComponent } from './user/user-card/user-card.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserDetailResolver } from './_resolvers/user-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UserEditResolver } from './_resolvers/user-edit.resolver';
 
 
 export function tokenGetter3() {
@@ -37,7 +41,8 @@ export function tokenGetter3() {
       RegisterComponent,
       UserListComponent,
       UserCardComponent,
-      UserDetailComponent
+      UserDetailComponent,
+      UserEditComponent
    ],
    imports: [
       BrowserAnimationsModule,
@@ -52,6 +57,7 @@ export function tokenGetter3() {
          }
       }
       ),
+      NgxGalleryModule,
       RouterModule.forRoot(appRoutes),
       BsDropdownModule.forRoot(),
       TabsModule.forRoot()
@@ -63,7 +69,8 @@ export function tokenGetter3() {
       AuthGuard,
       ErrorInterceptorProvider,
       UserDetailResolver,
-      UserListResolver
+      UserListResolver,
+      UserEditResolver
    ],
    bootstrap: [
       AppComponent

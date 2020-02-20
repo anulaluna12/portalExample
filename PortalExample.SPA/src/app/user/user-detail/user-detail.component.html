@@ -1,5 +1,11 @@
 <div class="container mt-3">
   <div class="row">
+    <h1>
+      Profil {{user.username}}
+    </h1>
+  </div>
+
+  <div class="row">
     <div class="col-sm-4">
       <div class="card"></div>
       <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user?.username}}">
@@ -38,41 +44,41 @@
           <tab heading="Informacje {{user.username}}">
             <table class="user-table">
               <tr>
-                <td  class="user-table-td">
+                <td class="user-table-td">
                   <h5>Wzrost</h5>
                   <p>{{user.growth}}</p>
                 </td>
-                <td  class="user-table-td">
+                <td class="user-table-td">
                   <h5>Stan cywilny</h5>
                   <p>{{user.martialStatus}}</p>
                 </td>
               </tr>
               <tr>
-                <td >
+                <td>
                   <h5>Kolor oczu</h5>
                   <p>{{user.eyeColor}}</p>
                 </td>
-                <td  >
+                <td>
                   <h5>Wykształcenie</h5>
                   <p>{{user.education}}</p>
                 </td>
               </tr>
               <tr>
-                <td  >
+                <td>
                   <h5>Kolor włosów</h5>
                   <p>{{user.hairColor}}</p>
                 </td>
-                <td  >
+                <td>
                   <h5>Zawód</h5>
                   <p>{{user.profestion}}</p>
                 </td>
               </tr>
               <tr>
-                <td  >
+                <td>
                   <h5>Dzieci</h5>
                   <p>{{user.children}}</p>
                 </td>
-                <td  >
+                <td>
                   <h5>Stan cywilny</h5>
                   <p>{{user.languages}}</p>
                 </td>
@@ -114,13 +120,12 @@
             <p>{{user.friendeWouldDescribeMe}}</p>
           </tab>
           <tab heading="Zdjęcia">
-             <p>Tutaj będą zjecia</p>
-       
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
           </tab>
           <tab heading="Wiadomości">
             <p>Tutaj będą widomości</p>
-      
-         </tab>
+
+          </tab>
         </tabset>
       </div>
     </div>
