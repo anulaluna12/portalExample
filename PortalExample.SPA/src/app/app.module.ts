@@ -21,6 +21,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import {  ErrorInterceptorProvider } from './_services/error.inerceptor';
 import { UserCardComponent } from './user/user-card/user-card.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { UserDetailResolver } from './_resolvers/user-detail.resolver';
+import { UserListResolver } from './_resolvers/user-list.resolver';
 
 
 export function tokenGetter3() {
@@ -59,8 +61,9 @@ export function tokenGetter3() {
       AlerifyService,
       UserService,
       AuthGuard,
-      ErrorInterceptorProvider
-      
+      ErrorInterceptorProvider,
+      UserDetailResolver,
+      UserListResolver
    ],
    bootstrap: [
       AppComponent

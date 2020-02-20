@@ -5,6 +5,8 @@ import { LikesComponent } from './likes/likes.component';
 import { MessegesComponent } from './messeges/messeges.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { UserDetailResolver } from './_resolvers/user-detail.resolver';
+import { UserListResolver } from './_resolvers/user-list.resolver';
 
 export const appRoutes: Routes = [
   {
@@ -18,11 +20,17 @@ export const appRoutes: Routes = [
     children: [
       {
         path: 'users',
-        component: UserListComponent
+        component: UserListComponent,
+        resolve: {
+          users: UserListResolver// Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
+        }
       },
       {
         path: 'users/:id',
-        component: UserDetailComponent
+        component: UserDetailComponent,
+        resolve: {
+          user: UserDetailResolver// Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
+        }
       },
       {
         path: 'likes',
