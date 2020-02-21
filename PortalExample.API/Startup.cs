@@ -46,6 +46,7 @@ namespace PortalExample.API
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc(option => option.EnableEndpointRouting = false);
             // .AddJsonOptions(option =>{option.JsonSerializerOptions});
+            services.Configure<ClaudinarySettings>(Configuration.GetSection("ClaudinarySettings"));
             services.AddAutoMapper();
             services.AddCors();
             services.AddTransient<Seed>();
