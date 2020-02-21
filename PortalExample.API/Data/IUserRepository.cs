@@ -4,7 +4,7 @@ using PortalExample.API.Models;
 
 namespace PortalExample.API.Data
 {
-    public interface IUserRepository
+    public interface IUserRepository :IGenericRepository
     {
          Task<IEnumerable<User>> GetUsers();
          Task<User> GetUser(int id);

@@ -30,6 +30,7 @@ namespace PortalExample.API.Helpers
               });
 
             CreateMap<Photo, PhotoForDetailedDto>();
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }
