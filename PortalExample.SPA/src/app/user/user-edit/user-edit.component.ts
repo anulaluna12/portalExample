@@ -3,6 +3,8 @@ import { User } from 'src/app/_models/User';
 import { ActivatedRoute } from '@angular/router';
 import { AlerifyService } from 'src/app/_services/alerify.service';
 import { NgForm } from '@angular/forms';
+import { UserService } from 'src/app/_services/user.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,12 +15,14 @@ export class UserEditComponent implements OnInit {
   user: User;
   constructor(
     private route: ActivatedRoute,
-    private alertify: AlerifyService
+    private alertify: AlerifyService,
+    private userSer: UserService,
+    private authSer: AuthService
   ) {}
   @ViewChild('editForm') editForm: NgForm;
   @HostListener('window:beforeunload', ['$enent'])
-  unloadNotification($event: any){
-    if(this.editForm.dirty){
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
       $event.returnValue = true;
     }
   }
@@ -29,9 +33,16 @@ export class UserEditComponent implements OnInit {
     });
   }
   updateUser() {
-    console.log(this.user);
-    this.alertify.success('Profil po,yśłe zaktualizowany');
-    this.editForm.reset(this.user);
+    this.userSer
+      .updateUser(this.authSer.decodedToken.nameid, this.user)
+      .subscribe(
+        next => {
+          this.alertify.success('Profil po,yśłe zaktualizowany');
+          this.editForm.reset(this.user);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
-
 }
