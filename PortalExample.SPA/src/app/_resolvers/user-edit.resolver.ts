@@ -11,20 +11,20 @@ import { AuthService } from '../_services/auth.service';
 
 @Injectable()
 export class UserEditResolver implements Resolve<User> {
-    constructor(private userSer: UserService, private router: Router, private alerify: AlerifyService,
-                private authService: AuthService
-        ) {
+  constructor(private userSer: UserService, private router: Router, private alerify: AlerifyService,
+    private authService: AuthService
+  ) {
 
-    }
-    resolve(route: ActivatedRouteSnapshot): Observable<User>  {
-        return this.userSer.getUser(this.authService.decodedToken.nameid)
-        .pipe(
-            catchError(error => {
-                this.alerify.error('Problem z pobraniem danych');
-                this.router.navigate(['/home']);
-                return of(null);
-            })
-        )
-        ;
-    }
+  }
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
+    return this.userSer.getUser(this.authService.decodedToken.nameid)
+      .pipe(
+        catchError(error => {
+          this.alerify.error('Problem z pobraniem danych sssss');
+          this.router.navigate(['/home']);
+          return of(null);
+        })
+      )
+      ;
+  }
 }

@@ -33,6 +33,6 @@ age: number;
     makesMeLauggh: string;
     itFeelBestIn: string;
     friendeWouldDescribeMe: string;
-    photo: Photo[];
+    photos: Photo[];
     photoUrl: string;
 }

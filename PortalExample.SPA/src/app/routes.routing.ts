@@ -27,6 +27,16 @@ export const appRoutes: Routes = [
         resolve: {
           users: UserListResolver // Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
         }
+       },
+
+      {
+        path: "users/edit",
+        component: UserEditComponent,
+        resolve: {
+          user: UserEditResolver // Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
+        }
+        ,
+        canDeactivate: [PreventUnsavedChanges]
       },
       {
         path: "users/:id",
@@ -34,7 +44,8 @@ export const appRoutes: Routes = [
         resolve: {
           user: UserDetailResolver // Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
         }
-      },
+      }
+,
       {
         path: "likes",
         component: LikesComponent
@@ -42,14 +53,6 @@ export const appRoutes: Routes = [
       {
         path: "messeges",
         component: MessegesComponent
-      },
-      {
-        path: "users/edit",
-        component: UserEditComponent,
-        resolve: {
-          user: UserEditResolver // Uzywając resolve ładujemy dane przed samą aktywacją rutingu , zanim zostanie  użyty ten komponent
-        },
-        canDeactivate: [PreventUnsavedChanges]
       }
     ]
   },

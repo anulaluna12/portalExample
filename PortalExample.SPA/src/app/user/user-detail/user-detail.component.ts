@@ -4,7 +4,7 @@ import { UserService } from 'src/app/_services/user.service';
 import { AlerifyService } from 'src/app/_services/alerify.service';
 import { ActivatedRoute } from '@angular/router';
 import { error } from 'protractor';
-import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
+import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 @Component({
   selector: 'app-user-detail',
@@ -38,7 +38,7 @@ export class UserDetailComponent implements OnInit {
   }
   getImages(){
     const imagesUrls=[];
-    for (let i = 0; i < this.user.length; i++) {
+    for (let i = 0; i < this.user.photos.length; i++) {
       imagesUrls.push({
           small:this.user.photos[i].url,
           medium:this.user.photos[i].url,

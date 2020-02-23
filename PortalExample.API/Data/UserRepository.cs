@@ -13,15 +13,21 @@ namespace PortalExample.API.Data
             _context = context;
         }
 
+        public async Task<Photo> GetPhoto(int id)
+        {
+            var photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
+            return photo;
+        }
+
         public async Task<User> GetUser(int id)
         {
-            var user=await _context.Users.Include(x=>x.Photo).FirstOrDefaultAsync(x=>x.Id==id);
+            var user = await _context.Users.Include(x => x.Photo).FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-             var users= await _context.Users.Include(x=>x.Photo).ToListAsync();
+            var users = await _context.Users.Include(x => x.Photo).ToListAsync();
             return users;
         }
     }

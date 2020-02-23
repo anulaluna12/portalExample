@@ -20,7 +20,7 @@ export class UserEditComponent implements OnInit {
     private authSer: AuthService
   ) {}
   @ViewChild('editForm') editForm: NgForm;
-  @HostListener('window:beforeunload', ['$enent'])
+  @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
       $event.returnValue = true;

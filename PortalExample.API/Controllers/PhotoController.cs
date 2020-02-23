@@ -15,8 +15,8 @@ using PortalExample.API.Models;
 namespace PortalExample.API.Controllers
 {
     [Authorize]
-    [Route("api/users/{userId}/photos")]
-    [ApiController]
+    [Route("api/user/{userId}/photos")]
+     [ApiController]
     public class PhotoController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -39,7 +39,7 @@ namespace PortalExample.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userId, PhotoForCreationDto PhotoForCreationDto)
+        public async Task<IActionResult> AddPhotoForUser(int userId,[FromData] PhotoForCreationDto PhotoForCreationDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
@@ -68,10 +68,23 @@ namespace PortalExample.API.Controllers
 
             userFromRepo.Photo.Add(photo);
 
-            if (await _userRepository.SaveAll())
-                return Ok();
+            if (await _userRepository.SaveAll()){
+
+                var photoToReturn= _mapper.Map<PhotoForReturnDto>(photo);
+                return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
+
+            }
 
             return BadRequest("Nie można dodac zdjęcia");
+
+        }
+        [HttpGet("{id}", Name = "GetPhoto")]
+        public async Task<IActionResult> GetPhoto(int id)
+        {
+            var photoFromRepo = await _userRepository.GetPhoto(id);
+            var photoFromReturn = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
+
+            return Ok(photoFromReturn);
 
         }
     }

@@ -17,6 +17,7 @@
     <div   *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" type="button" dropdownToggle>
         Witaj {{authService.decodedToken?.unique_name | titlecase}}
+        {{authService.decodedToken?.nameid | titlecase}}
       </a>
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/users/edit']"   type="button"><i class="fa fa-user"></i>Edytuj profil</a>

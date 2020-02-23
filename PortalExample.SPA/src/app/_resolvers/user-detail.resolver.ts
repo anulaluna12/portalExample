@@ -17,7 +17,7 @@ export class UserDetailResolver implements Resolve<User> {
         return this.userSer.getUser(route.params.id)
         .pipe(
             catchError(error => {
-                this.alerify.error('Problem z pobraniem danych');
+                this.alerify.error('Problem z pobraniem danych aaa');
                 this.router.navigate(['/users']);
                 return of(null);
             })
