@@ -16,7 +16,7 @@ namespace PortalExample.API.Controllers
 {
     [Authorize]
     [Route("api/user/{userId}/photos")]
-     [ApiController]
+    [ApiController]
     public class PhotoController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -39,7 +39,7 @@ namespace PortalExample.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userId,[FromData] PhotoForCreationDto PhotoForCreationDto)
+        public async Task<IActionResult> AddPhotoForUser(int userId, [FromForm] PhotoForCreationDto PhotoForCreationDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
@@ -68,9 +68,10 @@ namespace PortalExample.API.Controllers
 
             userFromRepo.Photo.Add(photo);
 
-            if (await _userRepository.SaveAll()){
+            if (await _userRepository.SaveAll())
+            {
 
-                var photoToReturn= _mapper.Map<PhotoForReturnDto>(photo);
+                var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
 
             }
@@ -85,6 +86,73 @@ namespace PortalExample.API.Controllers
             var photoFromReturn = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
 
             return Ok(photoFromReturn);
+
+        }
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMain(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+
+            var userFromRepo = await _userRepository.GetUser(userId);
+            if (!userFromRepo.Photo.Any(x => x.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await _userRepository.GetPhoto(id);
+            if (photoFromRepo.IsMain)
+                return BadRequest("To już jest głowne zdjęcie");
+
+            var currentMainPhoto = await _userRepository.GetMainPhotoForUser(userId);
+            currentMainPhoto.IsMain = false;
+
+            photoFromRepo.IsMain = true;
+            if (await _userRepository.SaveAll())
+            {
+                return NoContent();//status 204
+            };
+
+            return BadRequest("Nie można ustawić zdjęcia jako głownego");
+
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+
+            var userFromRepo = await _userRepository.GetUser(userId);
+            if (!userFromRepo.Photo.Any(x => x.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await _userRepository.GetPhoto(id);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("Nie można usunąć zdjęcia głównego");
+
+            if (photoFromRepo.public_id != null)
+            {
+                var deleteParams = new DeletionParams(photoFromRepo.public_id);
+                var result = _claudinary.Destroy(deleteParams);
+
+                if (result.Result == "ok")
+                {
+                    _userRepository.Delete(photoFromRepo);
+                }
+            }
+            if (photoFromRepo.public_id == null)
+            {
+                _userRepository.Delete(photoFromRepo);
+            }
+
+            if (await _userRepository.SaveAll())
+            {
+                return Ok();
+            }
+
+
+            return BadRequest("Nie udało się usunąc zdjęcia");
 
         }
     }

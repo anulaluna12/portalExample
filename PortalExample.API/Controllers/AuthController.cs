@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 
 namespace PortalExample.API.Controllers
 {
@@ -18,9 +19,12 @@ namespace PortalExample.API.Controllers
     {
         private readonly IAuthRepository _repository;
         private readonly IConfiguration _configuration;
-        public AuthController(IAuthRepository repository, IConfiguration configuration)
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
+            _mapper = mapper;
             _repository = repository;
 
         }
@@ -41,7 +45,7 @@ namespace PortalExample.API.Controllers
 
             return StatusCode(201);
         }
-         [HttpPost("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
             var userFromRepo = await _repository.Login(UserForLoginDto.UserName.ToLower(), UserForLoginDto.Password);
@@ -66,7 +70,13 @@ namespace PortalExample.API.Controllers
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new { token = tokenHandler.WriteToken(token) });
+
+            var user = _mapper.Map<UserForListDto>(userFromRepo);
+            return Ok(new
+            {
+                token = tokenHandler.WriteToken(token),
+                user
+            });
 
         }
     }

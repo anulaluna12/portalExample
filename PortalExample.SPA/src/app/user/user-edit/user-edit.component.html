@@ -18,7 +18,7 @@
       <div class="card"></div>
       <img
         class="card-img-top img-thumbnail"
-        src="{{ user.photoUrl }}"
+        src="{{ photoUrl }}"
         alt="{{ user?.username }}"
       />
       <div class="card-body">
@@ -269,7 +269,7 @@
               ></textarea>
             </tab>
             <tab heading="Zdjęcia">
-              <app-photos [photos]="user.photos"> </app-photos>
+              <app-photos [photos]="user.photos" (getuserPhotoChange)="updateMainPhoto($event)"> </app-photos>
             </tab>
             <tab heading="Wiadomości">
               <p>Tutaj będą widomości</p>
